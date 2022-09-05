@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206542769407",
+    "project_id": "sibersozluk",
+    "storage_bucket": "sibersozluk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206542769407:android:9d634a95a7c27d314890ca",
+        "android_client_info": {
+          "package_name": "com.example.sibersozluk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206542769407-bi21j3sc08laribip2loir6eiolqttil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmKfxRr5l2c5ml2QI_Hwc-yMFwdrH3zqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206542769407-bi21j3sc08laribip2loir6eiolqttil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

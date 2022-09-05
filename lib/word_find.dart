@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:word_search/word_search.dart';
 
 class WordFind extends StatefulWidget {
@@ -12,6 +15,23 @@ class WordFind extends StatefulWidget {
 
 class _WordFindState extends State<WordFind> {
   GlobalKey<_WordFindWidgetState> globalKey = GlobalKey();
+  final _firestore = FirebaseFirestore.instance;
+
+  late DatabaseReference _dbref;
+  String databasejson = '';
+
+  // _readdb_onechild() {
+  //   _dbref
+  //       .child("customer1")
+  //       .child("age")
+  //       .once()
+  //       .then((DataSnapshot dataSnapshot) {
+  //     print(" read once - " + dataSnapshot.value.toString());
+  //     setState(() {
+  //       databasejson = dataSnapshot.value.toString();
+  //     });
+  //   });
+  // }
 
   //make list question for puzzle
   //make class 1st
@@ -20,27 +40,39 @@ class _WordFindState extends State<WordFind> {
 
   @override
   void initState() {
+    _dbref = FirebaseDatabase.instance.reference();
+    //_readdb_onechild();
     listQuestions = [
-      WordFindQues(question: "What is name of this game?", answer: "Sozluk"),
-      WordFindQues(question: "What is your name", answer: "Ceren"),
-      WordFindQues(question: "bu ne", answer: "Oyun")
+      WordFindQues(
+          question:
+              'Verilere, bilgisayar sistemlerine veya ağlara yetkisiz bir şekilde erişildiği veya etkilendiği bir olay.',
+          answer: "İhlal"),
+      WordFindQues(
+          question:
+              "İnternete bağlı virüslü cihazlardan oluşan bir ağ, sahiplerinin bilgisi olmadan koordineli siber saldırılar yapmak için kullanılır",
+          answer: "Botnet"),
+      WordFindQues(
+          question:
+              "Bilgilerini değiştirmek, yok etmek, çalmak veya devre dışı bırakmak amacıyla bilgisayar sistemlerinden yararlanmaya çalışan kötü niyetli aktör.",
+          answer: "Saldırgan")
     ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference personelRef = _firestore.collection('0');
     return Scaffold(
       body: SafeArea(
           child: Container(
-        color: Colors.green,
+        color: Colors.white,
         child: Column(
           children: [
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return Container(
-                    color: Colors.blue,
+                    color: Colors.white60,
                     //wordfind widget
                     // sent list our widget
                     child: WordFindWidget(constraints.biggest,
@@ -51,22 +83,27 @@ class _WordFindState extends State<WordFind> {
               ),
             ),
             Container(
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent.shade700,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: TextButton(
-              style: TextButton.styleFrom(
-                side: BorderSide(
-                    width: 15,
-                    color: Colors.white,
-                    strokeAlign: StrokeAlign.outside),
-                padding: const EdgeInsets.all(16.0),
-                primary: Colors.white,
-                textStyle: const TextStyle(fontSize: 20),
-              ),
-              onPressed: () {
-                globalKey.currentState?.generatePuzzle(
-                    loop: listQuestions.map((ques) => ques.clone()).toList());
-              },
-              child: Text("Yeniden Yükle"),
-            )),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(16.0),
+                    primary: Colors.white,
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    globalKey.currentState?.generatePuzzle(
+                        loop:
+                            listQuestions.map((ques) => ques.clone()).toList());
+                  },
+                  child: Text(
+                    "YENİDEN YÜKLE",
+                    style: GoogleFonts.openSans(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                )),
             SizedBox(
               height: 20,
             )
@@ -119,8 +156,8 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                 InkWell(
                   onTap: () => generateHint(),
                   child: Icon(
-                    color: Colors.lightGreen,
-                    Icons.healing,
+                    color: Colors.yellow.shade700,
+                    Icons.lightbulb,
                     size: 45,
                   ),
                 ),
@@ -129,7 +166,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                     InkWell(
                       onTap: () => generatePuzzle(left: true),
                       child: Icon(
-                        color: Colors.lightGreen,
+                        color: Colors.yellow.shade700,
                         Icons.arrow_back_ios,
                         size: 45,
                       ),
@@ -137,7 +174,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                     InkWell(
                       onTap: () => generatePuzzle(next: true),
                       child: Icon(
-                        color: Colors.lightGreen,
+                        color: Colors.yellow.shade700,
                         Icons.arrow_forward_ios,
                         size: 45,
                       ),
@@ -148,14 +185,16 @@ class _WordFindWidgetState extends State<WordFindWidget> {
             ),
           ),
           Container(
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue.shade900, width: 2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.all(35),
               alignment: Alignment.center,
               child: Text(
                 "${currentQues.question ?? ''}",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                style: GoogleFonts.exo2(fontSize: 19, color: Colors.black),
               )),
           Container(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
@@ -165,6 +204,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                verticalDirection: VerticalDirection.up,
                 children: currentQues.puzzles.map((puzzle) {
                   Color? color;
                   if (currentQues.isDone)
@@ -174,7 +214,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                   else if (currentQues.isFull)
                     color = Colors.red;
                   else
-                    color = Color(0xff7EE7FD);
+                    color = Colors.white;
 
                   return InkWell(
                     onTap: () {
@@ -187,12 +227,14 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
+                        border:
+                            Border.all(width: 1, color: Colors.blue.shade900),
                         color: color,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       width: constraints.biggest.width / 7 - 6,
                       height: constraints.biggest.width / 7 - 6,
-                      margin: EdgeInsets.all(5),
+                      margin: EdgeInsets.all(3),
                       child: Text("${puzzle.currentValue ?? ''}".toUpperCase()),
                     ),
                   );
@@ -217,19 +259,19 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                         0;
 
                     return LayoutBuilder(builder: (context, constraints) {
-                      Color color =
-                          statusBtn ? Colors.white70 : Color(0xff7EE7FD);
+                      Color? color =
+                          statusBtn ? Colors.white70 : Colors.blueAccent[100];
 
                       return Container(
                         decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
                             color: color,
                             borderRadius: BorderRadius.circular(10)),
                         alignment: Alignment.center,
                         child: TextButton(
                           child: Text(
                             "${currentQues.arrayBtns[index]}".toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 25, color: Colors.black),
                           ),
                           onPressed: () {
                             if (!statusBtn) setBtnClick(index);
