@@ -23,7 +23,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Meta OzCe',
       theme: ThemeData(),
-      home: Navigation(),
+      home: Navigation(
+        t1: '',
+        t2: '',
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sibersozluk/AnaEkran/favoriler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -364,7 +365,76 @@ class _HomePageState extends State<HomePage> {
       "eng_terim": "Zero-Day",
       "eng_aciklama":
           "Recently discovered vulnerabilities (or bugs), not yet known to vendors or antivirus companies, that hackers can exploit."
-    }
+    },
+    {
+      "eng_terim": "Procure Secure",
+      "eng_aciklama":
+          "A practical guide aimed at the procurement and governance of cloud services.",
+      "turkce_terim": "Güvenli Tedarik",
+      "turkce_aciklama":
+          "Bulut hizmetlerinin satın alınmasını ve yönetilmesini amaçlayan pratik bir kılavuz. Bu kılavuz, güvenliğin izlenmesi hakkında sorulacak sorular hakkında tavsiyeler sağlar."
+    },
+    {
+      "eng_terim": "Resilience of the Internet Interconnection Ecosystem",
+      "KISALTMA": "İnter-X",
+      "eng_aciklama":
+          "The \"Inter-X: Resilience of the Internet Interconnection Ecosystem\" project at ENISA is interested in the resilience of the system of interconnections between Internet networks.",
+      "turkce_terim": "İnternet Ara bağlantı Ekosisteminin Esnekliği",
+      "turkce_aciklama":
+          "İnternet ağları arasındaki ara bağlantı sisteminin esnekliği ile ilgilenmektedir."
+    },
+    {
+      "eng_terim": "Encrypted Traffic Analysis",
+      "eng_aciklama":
+          "This report explores the current state of affairs in Encrypted Traffic Analysis and in particular discusses research and methods in 6 key use cases; viz. application identification, network analytics, user information identification, detection of encrypted malware, file/device/website/location fingerprinting and DNS tunnelling detection.",
+      "turkce_terim": "Şifreli Trafik Analizi   ",
+      "turkce_aciklama":
+          "Bu rapor, Şifreli Trafik Analizindeki mevcut durumu araştırıyor ve özellikle 6 anahtar kullanım örneğindeki araştırma ve yöntemleri tartışıyor. Bunlar; uygulama tanımlama, ağ analitiği, kullanıcı bilgileri tanımlama, şifreli kötü amaçlı yazılım algılama, dosya/cihaz/web sitesi/konum parmak izi ve DNS tüneli algılama."
+    },
+    {
+      "eng_terim":
+          "Distributed Ledger Technology & Cybersecurity - Improving information security in the financial sector",
+      "eng_aciklama":
+          "This paper aims to provide financial professionals in both business and technology roles with an assessment of the various benefits and challenges that their institutions may encounter when implementing a distributed ledger",
+      "turkce_terim":
+          "Dağıtılmış Defter Teknolojisi ve Siber Güvenlik - Finans Sektöründe Bilgi Güvenliğinin İyileştirilmesi",
+      "turkce_aciklama":
+          "Bu belge, hem iş hem de teknoloji rollerindeki finans uzmanlarına, kurumlarının dağıtılmış bir defter kullanırken karşılaşabilecekleri çeşitli yararlar ve zorluklar hakkında bir değerlendirme sunmayı amaçlamaktadır."
+    },
+    {
+      "eng_terim": "Security of Mobile Payments and Digital Wallets",
+      "eng_aciklama":
+          "The primary objective of this paper is the production of guidelines to assist mobile payment developers and mobile payment providers towards recommended security controls which if implemented would help ensure that consumers, retailers and financial institutions are all safeguarded from cyber threats. ",
+      "turkce_terim": "Mobil Ödemelerin ve Dijital Cüzdanların Güvenliği",
+      "turkce_aciklama":
+          "Bu belgenin temel amacı, mobil ödeme geliştiricilerine ve mobil ödeme sağlayıcılarına, uygulandığı takdirde tüketicilerin, perakendecilerin ve finansal kurumların tümünün siber tehditlerden korunmasını sağlamaya yardımcı olacak, önerilen güvenlik kontrollerine yönelik kılavuz ilkelerin üretilmesidir."
+    },
+    {
+      "eng_terim":
+          "Threat Landscape and Good Practice Guide for Software Defined Networks/5G",
+      "eng_aciklama":
+          "This study reviews threats and potential compromises related to the security of SDN/5G networks. More specifically, this report has identified related network assets and the security threats, challenges and risks arising for these assets. ",
+      "turkce_terim":
+          "Yazılım Tanımlı Ağlar/5G için Tehdit Ortamı ve İyi Uygulama Kılavuzu",
+      "turkce_aciklama":
+          "Bu çalışma, SDN/5G ağlarının güvenliğiyle ilgili tehditleri ve olası tavizleri incelemektedir. Daha spesifik olarak, bu rapor ilgili ağ varlıklarını ve bu varlıklar için ortaya çıkan güvenlik tehditlerini, zorluklarını ve risklerini belirlemiştir."
+    },
+    {
+      "eng_terim": "Threat Landscape of Internet Infrastructure",
+      "eng_aciklama":
+          "This study details a list of good practices that aim at securing an Internet infrastructure asset from Important Specific Threats.",
+      "turkce_terim": "İnternet Altyapısının Tehdit Manzarası",
+      "turkce_aciklama":
+          "Bu çalışma, bir İnternet altyapı varlığının Önemli Özel Tehditlerden korunmasını amaçlayan iyi uygulamaların bir listesini detaylandırmaktadır."
+    },
+    {
+      "eng_terim": "Reactive services ",
+      "eng_aciklama":
+          "Reactive services usually consist in post incident reports from constituency or other events related to threats or attacks such as compromised hosts, malware, vulnerabilities or other type of similar incidents.",
+      "turkce_terim": "Reaktif Servisler",
+      "turkce_aciklama":
+          "Reaktif servisler genellikle, seçim bölgesinden gelen olay sonrası raporlardan veya güvenliği ihlal edilmiş ana bilgisayarlar, kötü amaçlı yazılımlar, güvenlik açıkları veya diğer benzer olaylar gibi tehditler veya saldırılarla ilgili diğer olaylardan oluşur."
+    },
   ];
 
   List<Map<String, dynamic>> _foundWords = [];
@@ -390,8 +460,44 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget _buildRow(dynamic pair) {
+    final alreadyadd = _foundWords.contains(pair);
+
+    // word-pair tile
+    return ListTile(
+        title: Text(pair, style: TextStyle(fontSize: 18.0)),
+        trailing: Icon(alreadyadd ? Icons.check : Icons.add,
+            color: alreadyadd ? Colors.green : null),
+        onTap: () {
+          setState(() {
+            if (alreadyadd) {
+              _foundWords.remove(pair);
+            } else {
+              _foundWords.add(pair);
+            }
+          });
+        });
+  }
+
+  void _pushadd() => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
+        final Iterable<ListTile> tiles = _foundWords.map((dynamic pair) {
+          return ListTile(
+              title: Text(pair.asPascalCase, style: TextStyle(fontSize: 16.0)));
+        });
+
+        final List<Widget> divided =
+            ListTile.divideTiles(context: context, tiles: tiles).toList();
+
+        // saved word-pair page
+        return Scaffold(
+            appBar: AppBar(title: Text('Saved Word-Pairs')),
+            body: ListView(children: divided));
+      }));
+
   @override
   Widget build(BuildContext context) {
+    final alreadyadd = _foundWords.contains(context);
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
@@ -453,6 +559,10 @@ class _HomePageState extends State<HomePage> {
                     height: 40,
                   ),
                 )),
+                IconButton(
+                  icon: Icon(Icons.menu_book),
+                  onPressed: () {},
+                )
               ]),
               Container(
                 child: Expanded(
@@ -488,8 +598,20 @@ class _HomePageState extends State<HomePage> {
                                       style: GoogleFonts.openSans(
                                           color: Colors.black, fontSize: 16)),
                                   trailing: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.favorite_border),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => FavorilerPage(
+                                                  aciklama:
+                                                      "${_foundWords[index]['turkce_aciklama']}",
+                                                  kelime:
+                                                      "${_foundWords[index]['turkce_aciklama']}")));
+                                    },
+                                    icon: Icon(
+                                        alreadyadd ? Icons.check : Icons.add,
+                                        color:
+                                            alreadyadd ? Colors.green : null),
                                     iconSize: 25,
                                     color: Colors.red,
                                     splashColor: Colors.red,

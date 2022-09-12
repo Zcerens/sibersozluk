@@ -33,9 +33,6 @@ class _WordFindState extends State<WordFind> {
   //   });
   // }
 
-  //make list question for puzzle
-  //make class 1st
-
   late List<WordFindQues> listQuestions;
 
   @override
@@ -54,7 +51,31 @@ class _WordFindState extends State<WordFind> {
       WordFindQues(
           question:
               "Bilgilerini değiştirmek, yok etmek, çalmak veya devre dışı bırakmak amacıyla bilgisayar sistemlerinden yararlanmaya çalışan kötü niyetli aktör.",
-          answer: "Saldırgan")
+          answer: "Saldırgan"),
+      WordFindQues(
+          question:
+              "Kötü amaçlı yazılımları tespit etmek ve kaldırmak için tasarlanmış bir program",
+          answer: "Antivirüs"),
+      WordFindQues(
+          question:
+              "SMS yoluyla kimlik avı: Kullanıcılara hassas bilgiler (ör. banka bilgileri) soran veya onları sahte bir web sitesini ziyaret etmeye teşvik eden toplu metin mesajları.",
+          answer: "Smishing"),
+      WordFindQues(
+          question:
+              "Kendi kendini kopyalayabilen ve meşru yazılım programlarına veya sistemlerine bulaşmak üzere tasarlanmış programlar. Bir tür kötü amaçlı yazılım.",
+          answer: "Virüs"),
+      WordFindQues(
+          question:
+              "Yetkisiz erişim, verilerin yok edilmesi, ifşa edilmesi, değiştirilmesi ve/veya hizmet reddi yoluyla bir varlığı olumsuz etkileme potansiyeli olan herhangi bir durum veya olay.",
+          answer: "Tehdit"),
+      WordFindQues(
+          question:
+              "Kötü amaçlı yazılımları tespit etmek ve kaldırmak için tasarlanmış bir program",
+          answer: "Antivirüs"),
+      WordFindQues(
+          question:
+              "Saldırıları, potansiyel kurbanları kimlik bilgileri veya banka ve kredi kartı bilgileri gibi hassas bilgileri ifşa etmeye ikna etmenin bir yoludur.",
+          answer: "Oltalama")
     ];
     super.initState();
   }
@@ -73,8 +94,6 @@ class _WordFindState extends State<WordFind> {
                 builder: (context, constraints) {
                   return Container(
                     color: Colors.white60,
-                    //wordfind widget
-                    // sent list our widget
                     child: WordFindWidget(constraints.biggest,
                         listQuestions.map((ques) => ques.clone()).toList(),
                         key: globalKey),
@@ -105,7 +124,7 @@ class _WordFindState extends State<WordFind> {
                   ),
                 )),
             SizedBox(
-              height: 20,
+              height: 10,
             )
           ],
         ),
@@ -128,7 +147,7 @@ class WordFindWidget extends StatefulWidget {
 class _WordFindWidgetState extends State<WordFindWidget> {
   late Size size;
   late List<WordFindQues> listQuestions;
-  int indexQues = 0; //current index
+  int indexQues = 0; //curr index
   int hintCount = 0;
 
   @override
@@ -194,7 +213,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
               alignment: Alignment.center,
               child: Text(
                 "${currentQues.question ?? ''}",
-                style: GoogleFonts.exo2(fontSize: 19, color: Colors.black),
+                style: GoogleFonts.exo2(fontSize: 17, color: Colors.black),
               )),
           Container(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
@@ -232,8 +251,8 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                         color: color,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      width: constraints.biggest.width / 7 - 6,
-                      height: constraints.biggest.width / 7 - 6,
+                      width: constraints.biggest.width / 11,
+                      height: constraints.biggest.width / 8,
                       margin: EdgeInsets.all(3),
                       child: Text("${puzzle.currentValue ?? ''}".toUpperCase()),
                     ),
@@ -251,7 +270,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
                       crossAxisCount: 8,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4),
-                  itemCount: 16, //later change
+                  itemCount: 16, //sonra degisebilir
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     bool statusBtn = currentQues.puzzles.indexWhere(
@@ -315,7 +334,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
 
     final WSNewPuzzle newPuzzle = wordSearch.newPuzzle(w1, ws);
 
-    //check if got error generate random word
+    //hata olup olmadığını kontrol, rastgele kelime oluşturmak
     if (newPuzzle.errors.isEmpty) {}
     currentQues.arrayBtns = newPuzzle.puzzle.expand((list) => list).toList();
     currentQues.arrayBtns.shuffle();
@@ -331,7 +350,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
   }
 
   generateHint() async {
-    // let dclare hint
+    // harf lutfen
     WordFindQues currentQues = listQuestions[indexQues];
 
     List<WordFindChar> puzzleNoHints = currentQues.puzzles
@@ -357,7 +376,7 @@ class _WordFindWidgetState extends State<WordFindWidget> {
         return puzzle;
       }).toList();
 
-      // check if complete
+      // tamalama kontrol
 
       if (currentQues.fieldCompleteCorrect()) {
         currentQues.isDone = true;
@@ -368,7 +387,6 @@ class _WordFindWidgetState extends State<WordFindWidget> {
         generatePuzzle(next: true);
       }
 
-      // my wrong..not refresh.. damn..haha
       setState(() {});
     }
   }
@@ -417,17 +435,17 @@ class WordFindQues {
         this.puzzles.where((puzzle) => puzzle.correctValue == null).length == 0;
 
     if (!complete) {
-      // no complete yet
+      // daha tamamlanmamıs
       this.isFull = false;
       return complete;
     }
     this.isFull = true;
-    // if already complete check correct or not
+    //tamamlandıysa, doğru olup olmadığını kontrol
 
     String answeredStirng =
         this.puzzles.map((puzzle) => puzzle.currentValue).join("");
 
-    //if same string, answer is correct..yeay
+    //aynı dize ise, cevap doğrudur
     return answeredStirng == this.answer;
   }
 

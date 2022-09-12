@@ -1,12 +1,15 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sibersozluk/AnaEkran/favoriler.dart';
 import 'package:sibersozluk/AnaEkran/homepage.dart';
 import 'package:sibersozluk/word_find.dart';
 
 class Navigation extends StatefulWidget {
   int index;
-  Navigation({this.index = 0});
+  String t1, t2;
+
+  Navigation({this.index = 0, required this.t1, required this.t2});
 
   @override
   _NavigationState createState() => _NavigationState();
@@ -14,7 +17,12 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int currentIndex = 0;
-  final screens = [HomePage(), WordFind()];
+
+  final screens = [
+    HomePage(),
+    WordFind(),
+    FavorilerPage(aciklama: "gffg", kelime: "jhjhg")
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
